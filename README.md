@@ -1,5 +1,5 @@
 # LifeExpress
-
+--------------------------------
 During development:
 
 1) Set mongdb credentials in main.js
@@ -13,7 +13,10 @@ babel --presets react src --watch --out-dir static
 node main.js
 
 
+
 Design and Architecture
+--------------------------------
+
 
 
 
