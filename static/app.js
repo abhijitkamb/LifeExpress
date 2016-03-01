@@ -24,7 +24,7 @@ var PeopleRow = React.createClass({
 			React.createElement(
 				"td",
 				null,
-				this.props.people.id
+				this.props.people._id
 			),
 			React.createElement(
 				"td",
@@ -50,15 +50,13 @@ var PeopleRow = React.createClass({
 	}
 });
 
-var PeopleData = [{ id: 1, name: "abhi", img: "abhi pic", problem: "fosdfgod", solution: "popeyes" }, { id: 2, name: "abhi2", img: "abhiasdf pic2", problem: "food2", solution: "popeyes2" }];
-
 var PeopleTable = React.createClass({
 	displayName: "PeopleTable",
 
 	render: function () {
 		//console.log("Rendering peopl table, num items:", this.props.peopledata.length);
 		var peoplerows = this.props.peopledata.map(function (people) {
-			return React.createElement(PeopleRow, { key: people.id, people: people });
+			return React.createElement(PeopleRow, { key: people._id, people: people });
 		});
 
 		return React.createElement(
@@ -157,7 +155,6 @@ var PeopleAdd = React.createClass({
 			return;
 		}
 
-		// TODO: send request to the server
 		this.props.addperson({ name: name, img: photo, problem: problem, solution: solution });
 		this.setState({ name: "", img: "", problem: "", solution: "" });
 	}
@@ -169,7 +166,14 @@ var PeopleList = React.createClass({
 
 
 	getInitialState: function () {
-		return { peopledata: PeopleData };
+		return { peopledata: [] };
+	},
+	componentDidMount: function () {
+		$.ajax('/api/people').done(function (data) {
+			this.setState({ peopledata: data });
+		}.bind(this));
+
+		//handle errors: https://facebook.github.io/react/docs/tutorial.html#updating-state
 	},
 	render: function () {
 		return React.createElement(
@@ -189,19 +193,24 @@ var PeopleList = React.createClass({
 	},
 
 	addPerson: function (person) {
-		person.id = this.state.peopledata.length + 1;
-		var peopleModified = this.state.peopledata.slice();
-		peopleModified.push(person);
-		this.setState({ peopledata: peopleModified });
+
+		$.ajax({
+			url: '/api/people',
+			contentType: 'application/json',
+			type: 'POST',
+			data: JSON.stringify(person),
+			success: function (data) {
+				var p = data;
+				var peopleModified = this.state.peopledata.concat(p);
+				this.setState({ peopledata: peopleModified });
+			}.bind(this),
+			error: function (xhr, status, err) {
+				console.log("Error adding person: ", err.toString());
+			}
+
+		});
 	}
 
 });
 
 ReactDOM.render(React.createElement(PeopleList, null), document.getElementById('main'));
-
-/*
-ReactDOM.render(
-	<h1>Hello, wdasforld!</h1>,
-	document.getElementById('example')
-);
-*/
