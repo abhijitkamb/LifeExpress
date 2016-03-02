@@ -1,6 +1,7 @@
 
-//var React = require('react');
-//var ReactDOM = require('react-dom');
+var React = require('react');
+var ReactDOM = require('react-dom');
+var $ = require('jquery');
 
 var PeopleFilter = React.createClass({
 	render: function() {

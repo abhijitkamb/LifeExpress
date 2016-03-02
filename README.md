@@ -1,12 +1,21 @@
 # LifeExpress
 --------------------------------
+
+Prerequisites:
+npm install -g babel-cli
+npm install -g browserify
+
 During development:
 
 1) Set mongdb credentials in main.js
 
-2) When making changes to src/app.js, run the following in a terminal in the backgroud. This translates the JSX syntax to pure Javascript located in static/app.js that index.html renders.
+2) To bundle packages
 
-babel --presets react src --watch --out-dir static
+gulp bundle
+
+3) To watch changes
+
+gulp or gulp watch
 
 3) To start the server
 

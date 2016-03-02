@@ -1,48 +1,49 @@
 
-//var React = require('react');
-//var ReactDOM = require('react-dom');
+var React = require('react');
+var ReactDOM = require('react-dom');
+var $ = require('jquery');
 
 var PeopleFilter = React.createClass({
-	displayName: "PeopleFilter",
+	displayName: 'PeopleFilter',
 
 	render: function () {
 		return React.createElement(
-			"div",
-			{ className: "peopleFilter" },
-			"way to filter comes here"
+			'div',
+			{ className: 'peopleFilter' },
+			'way to filter comes here'
 		);
 	}
 });
 
 var PeopleRow = React.createClass({
-	displayName: "PeopleRow",
+	displayName: 'PeopleRow',
 
 	render: function () {
 		return React.createElement(
-			"tr",
-			{ className: "peopleRow" },
+			'tr',
+			{ className: 'peopleRow' },
 			React.createElement(
-				"td",
+				'td',
 				null,
 				this.props.people._id
 			),
 			React.createElement(
-				"td",
+				'td',
 				null,
 				this.props.people.name
 			),
 			React.createElement(
-				"td",
+				'td',
 				null,
 				this.props.people.img
 			),
 			React.createElement(
-				"td",
+				'td',
 				null,
 				this.props.people.problem
 			),
 			React.createElement(
-				"td",
+				'td',
 				null,
 				this.props.people.solution
 			)
@@ -51,7 +52,7 @@ var PeopleRow = React.createClass({
 });
 
 var PeopleTable = React.createClass({
-	displayName: "PeopleTable",
+	displayName: 'PeopleTable',
 
 	render: function () {
 		//console.log("Rendering peopl table, num items:", this.props.peopledata.length);
@@ -60,43 +61,44 @@ var PeopleTable = React.createClass({
 		});
 
 		return React.createElement(
-			"table",
+			'table',
 			null,
+			'asdf',
 			React.createElement(
-				"thead",
+				'thead',
 				null,
 				React.createElement(
-					"tr",
+					'tr',
 					null,
 					React.createElement(
-						"th",
+						'th',
 						null,
-						"ID"
+						'ID'
 					),
 					React.createElement(
-						"th",
+						'th',
 						null,
-						"Name"
+						'Name'
 					),
 					React.createElement(
-						"th",
+						'th',
 						null,
-						"Photo"
+						'Photo'
 					),
 					React.createElement(
-						"th",
+						'th',
 						null,
-						"Problem"
+						'Problem'
 					),
 					React.createElement(
-						"th",
+						'th',
 						null,
-						"Solution"
+						'Solution'
 					)
 				)
 			),
 			React.createElement(
-				"tbody",
+				'tbody',
 				null,
 				peoplerows
 			)
@@ -105,7 +107,7 @@ var PeopleTable = React.createClass({
 });
 
 var PeopleAdd = React.createClass({
-	displayName: "PeopleAdd",
+	displayName: 'PeopleAdd',
 
 
 	getInitialState: function () {
@@ -113,19 +115,19 @@ var PeopleAdd = React.createClass({
 	},
 	render: function () {
 		return React.createElement(
-			"div",
-			{ className: "peopleAdd" },
+			'div',
+			{ className: 'peopleAdd' },
 			React.createElement(
-				"form",
-				{ name: "personAdd" },
-				React.createElement("input", { type: "text", name: "name", placeholder: "Name", value: this.state.name, onChange: this.handleChangeName }),
-				React.createElement("input", { type: "text", name: "photo", placeholder: "Photo", value: this.state.img, onChange: this.handleChangePhoto }),
-				React.createElement("input", { type: "text", name: "problem", placeholder: "Problem", value: this.state.problem, onChange: this.handleChangeProblem }),
-				React.createElement("input", { type: "text", name: "solution", placeholder: "Solution", value: this.state.solution, onChange: this.handleChangeSolution }),
+				'form',
+				{ name: 'personAdd' },
+				React.createElement('input', { type: 'text', name: 'name', placeholder: 'Name', value: this.state.name, onChange: this.handleChangeName }),
+				React.createElement('input', { type: 'text', name: 'photo', placeholder: 'Photo', value: this.state.img, onChange: this.handleChangePhoto }),
+				React.createElement('input', { type: 'text', name: 'problem', placeholder: 'Problem', value: this.state.problem, onChange: this.handleChangeProblem }),
+				React.createElement('input', { type: 'text', name: 'solution', placeholder: 'Solution', value: this.state.solution, onChange: this.handleChangeSolution }),
 				React.createElement(
-					"button",
+					'button',
 					{ onClick: this.handleSubmit },
-					"Add Person"
+					'Add Person'
 				)
 			)
 		);
@@ -162,7 +164,7 @@ var PeopleAdd = React.createClass({
 });
 
 var PeopleList = React.createClass({
-	displayName: "PeopleList",
+	displayName: 'PeopleList',
 
 
 	getInitialState: function () {
@@ -177,17 +179,17 @@ var PeopleList = React.createClass({
 	},
 	render: function () {
 		return React.createElement(
-			"div",
-			{ className: "peopleList" },
+			'div',
+			{ className: 'peopleList' },
 			React.createElement(
-				"h1",
+				'h1',
 				null,
-				"People"
+				'People'
 			),
 			React.createElement(PeopleFilter, null),
-			React.createElement("hr", null),
+			React.createElement('hr', null),
 			React.createElement(PeopleTable, { peopledata: this.state.peopledata }),
-			React.createElement("hr", null),
+			React.createElement('hr', null),
 			React.createElement(PeopleAdd, { addperson: this.addPerson })
 		);
 	},

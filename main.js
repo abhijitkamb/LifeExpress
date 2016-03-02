@@ -6,6 +6,7 @@ var assert = require('assert');
 var app = express();
 //SET THIS PLEASE BEFORE RUNNING THE SERVER AND NEVER PUSH CREDENTIALS TO GIT
 var url = 'mongodb://<dbuser>:<dbpassword>@ds059115.mlab.com:59115/lifeexpress';
+
 var db;
 
 
@@ -37,7 +38,6 @@ app.post('/api/people/', function(req, res){
 });
 
 
-
 MongoClient.connect(url, function(err, dbconn) {
   assert.equal(null, err);
   db = dbconn;
@@ -47,7 +47,7 @@ MongoClient.connect(url, function(err, dbconn) {
 	  var port = server.address().port;
 	  console.log('Server listening on port', port, '!');
   });
-
+ 
   //db.close();
 });
 
