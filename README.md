@@ -9,19 +9,30 @@ During development:
 
 1) Set mongdb credentials in main.js
 
-2) To bundle packages
+2) in main.js
+
+//FOR WINDOWS, USE 
+app.use('/', express.static(__dirname + '\\static'));
+
+//FOR LINUX, USE
+//app.use('/', express.static(__dirname + '/static'));
+
+3) To bundle packages
 
 gulp bundle
 
-3) To watch changes
+4) To watch changes
 
 gulp or gulp watch
 
-3) To start the server
+5) To start the server
 
 node main.js
 
 
+TODO:
+
+- currently uses hashHistory routing, might wanna consider browerHistory
 
 Design and Architecture
 --------------------------------

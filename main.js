@@ -7,22 +7,32 @@ var app = express();
 //SET THIS PLEASE BEFORE RUNNING THE SERVER AND NEVER PUSH CREDENTIALS TO GIT
 //var url = 'mongodb://<dbuser>:<dbpassword>@ds059115.mlab.com:59115/lifeexpress';
 var url = 'mongodb://abhi:abhi@ds059115.mlab.com:59115/lifeexpress';
-
 var db;
 
+//onsole.log("DITNAME: ", __dirname + '\\static');
+//FOR WINDOWS, USE 
+app.use('/', express.static(__dirname + '\\static'));
 
-app.use('/static', express.static(__dirname + '/static'));
+//FOR LINUX, USE
+//app.use('/', express.static(__dirname + '/static'));
+
 app.use(bodyParser.json());
 
-app.get('/', function(req, res){
-	res.send('Life Express server asdfd!');
-});
 
 
 app.get('/api/people', function(req, res){
-	db.collection("people").find().toArray(function(err, docs){
+
+	console.log("Query string: ", req.query);
+
+	var filter = {};
+	if (req.query.place) {
+		filter.place = req.query.place;
+	}
+
+	db.collection("people").find(filter).toArray(function(err, docs){
+		//console.log(doc);
 		res.json(docs);
-	})
+	});
 });
 
 app.post('/api/people/', function(req, res){

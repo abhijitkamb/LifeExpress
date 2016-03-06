@@ -12,8 +12,10 @@ var PeopleRow = React.createClass({
 				<td>{this.props.people._id}</td>
 				<td>{this.props.people.name}</td>
 				<td>{this.props.people.img}</td>
+				<td>{this.props.people.place}</td>
 				<td>{this.props.people.problem}</td>
 				<td>{this.props.people.solution}</td>
+
 			</tr>
 		);
 	}
@@ -34,6 +36,7 @@ var PeopleTable = React.createClass({
 						<th>ID</th>
 						<th>Name</th>
 						<th>Photo</th>
+						<th>Place</th>
 						<th>Problem</th>
 						<th>Solution</th>
 					</tr>
@@ -52,18 +55,18 @@ var PeopleList = React.createClass({
 	getInitialState: function() {
     	return {peopledata: []};
   	},
-  	componentDidMount: function() {
-  		$.ajax('/api/people').done(function (data) {
-  			this.setState({peopledata: data});
-  		}.bind(this));
 
-  		//handle errors: https://facebook.github.io/react/docs/tutorial.html#updating-state
+  	contextTypes: {
+    	router: React.PropTypes.object.isRequired
   	},
+  	
 	render: function() {
+
+		console.log("LOCAION QUERY:: ", this.props.location.query);
 		return (
 			<div className="peopleList">
 				<h1>People</h1>
-				<PeopleFilter />
+				<PeopleFilter submitHandler={this.changeFilter} initFilter={this.props.location.query}/>
 				<hr />
 				<PeopleTable peopledata={this.state.peopledata} />
 				<hr />
@@ -72,6 +75,49 @@ var PeopleList = React.createClass({
 			</div>
 		);
 	},
+
+	componentDidMount: function() {
+		console.log("componentDidMount gets called");
+		this.loadData();
+  		//handle errors: https://facebook.github.io/react/docs/tutorial.html#updating-state
+  	},
+
+  	componentDidUpdate: function(prevProps) {
+
+
+  		console.log("componentDidUpdate gets called");
+
+  		var oldQuery = prevProps.location.query;
+  		var newQuery = this.props.location.query;
+
+  		console.log("PREV LOCATION QUERY: ", oldQuery);
+		console.log("NEW LOCATION QUERY: ", newQuery);
+
+  		if (oldQuery.place === newQuery.place) {
+  			console.log("People List: componentDidUpdate, no change in filter, not updating");
+  			return;
+  		} else {
+  			console.log("People List: componentDidUpdate, loading data with new filter");
+  			this.loadData();
+  		}
+  	},
+
+  	loadData: function () {
+  		console.log("QUERY: ", this.props.location.query)
+  		var query = this.props.location.query || {};
+  		var filter = {place: query.place};
+
+  		$.ajax('/api/people', {data: filter}).done(function (data) {
+  			this.setState({peopledata: data});
+  		}.bind(this));
+  	},
+
+  	changeFilter: function(newFilter){
+  		console.log("change filter gets called");
+  		//this.props.history.push({search: '?' + $.param(newFilter)});
+  		this.context.router.push({search: '?' + $.param(newFilter)});
+  		//this.loadData(newFilter);
+  	},
 
 
 	addPerson: function (person) {
