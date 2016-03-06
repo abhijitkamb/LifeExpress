@@ -5,7 +5,8 @@ var assert = require('assert');
 
 var app = express();
 //SET THIS PLEASE BEFORE RUNNING THE SERVER AND NEVER PUSH CREDENTIALS TO GIT
-var url = 'mongodb://<dbuser>:<dbpassword>@ds059115.mlab.com:59115/lifeexpress';
+//var url = 'mongodb://<dbuser>:<dbpassword>@ds059115.mlab.com:59115/lifeexpress';
+var url = 'mongodb://abhi:abhi@ds059115.mlab.com:59115/lifeexpress';
 
 var db;
 

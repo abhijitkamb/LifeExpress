@@ -28864,39 +28864,8 @@ module.exports = validateDOMNesting;
 module.exports = require('./lib/React');
 
 },{"./lib/React":54}],160:[function(require,module,exports){
-
 var React = require('react');
 var ReactDOM = require('react-dom');
-var $ = require('jquery');
-
-var PeopleFilter = React.createClass({
-	displayName: 'PeopleFilter',
-
-	render: function () {
-		return React.createElement('div', { className: 'peopleFilter' }, 'way to filter comes here');
-	}
-});
-
-var PeopleRow = React.createClass({
-	displayName: 'PeopleRow',
-
-	render: function () {
-		return React.createElement('tr', { className: 'peopleRow' }, React.createElement('td', null, this.props.people._id), React.createElement('td', null, this.props.people.name), React.createElement('td', null, this.props.people.img), React.createElement('td', null, this.props.people.problem), React.createElement('td', null, this.props.people.solution));
-	}
-});
-
-var PeopleTable = React.createClass({
-	displayName: 'PeopleTable',
-
-	render: function () {
-		//console.log("Rendering peopl table, num items:", this.props.peopledata.length);
-		var peoplerows = this.props.peopledata.map(function (people) {
-			return React.createElement(PeopleRow, { key: people._id, people: people });
-		});
-
-		return React.createElement('table', null, React.createElement('thead', null, React.createElement('tr', null, React.createElement('th', null, 'ID'), React.createElement('th', null, 'Name'), React.createElement('th', null, 'Photo'), React.createElement('th', null, 'Problem'), React.createElement('th', null, 'Solution'))), React.createElement('tbody', null, peoplerows));
-	}
-});
 
 var PeopleAdd = React.createClass({
 	displayName: 'PeopleAdd',
@@ -28938,6 +28907,51 @@ var PeopleAdd = React.createClass({
 
 });
 
+module.exports = PeopleAdd;
+
+},{"react":159,"react-dom":30}],161:[function(require,module,exports){
+var React = require('react');
+var ReactDOM = require('react-dom');
+
+var PeopleFilter = React.createClass({
+	displayName: 'PeopleFilter',
+
+	render: function () {
+		return React.createElement('div', { className: 'peopleFilter' }, 'way to filter comes here');
+	}
+});
+
+module.exports = PeopleFilter;
+
+},{"react":159,"react-dom":30}],162:[function(require,module,exports){
+var React = require('react');
+var ReactDOM = require('react-dom');
+var $ = require('jquery');
+
+var PeopleFilter = require('./PeopleFilter');
+var PeopleAdd = require('./PeopleAdd');
+
+var PeopleRow = React.createClass({
+	displayName: 'PeopleRow',
+
+	render: function () {
+		return React.createElement('tr', { className: 'peopleRow' }, React.createElement('td', null, this.props.people._id), React.createElement('td', null, this.props.people.name), React.createElement('td', null, this.props.people.img), React.createElement('td', null, this.props.people.problem), React.createElement('td', null, this.props.people.solution));
+	}
+});
+
+var PeopleTable = React.createClass({
+	displayName: 'PeopleTable',
+
+	render: function () {
+		//console.log("Rendering peopl table, num items:", this.props.peopledata.length);
+		var peoplerows = this.props.peopledata.map(function (people) {
+			return React.createElement(PeopleRow, { key: people._id, people: people });
+		});
+
+		return React.createElement('table', null, React.createElement('thead', null, React.createElement('tr', null, React.createElement('th', null, 'ID'), React.createElement('th', null, 'Name'), React.createElement('th', null, 'Photo'), React.createElement('th', null, 'Problem'), React.createElement('th', null, 'Solution'))), React.createElement('tbody', null, peoplerows));
+	}
+});
+
 var PeopleList = React.createClass({
 	displayName: 'PeopleList',
 
@@ -28976,6 +28990,15 @@ var PeopleList = React.createClass({
 
 });
 
+module.exports = PeopleList;
+
+},{"./PeopleAdd":160,"./PeopleFilter":161,"jquery":28,"react":159,"react-dom":30}],163:[function(require,module,exports){
+
+var React = require('react');
+var ReactDOM = require('react-dom');
+
+var PeopleList = require('./PeopleList');
+
 ReactDOM.render(React.createElement(PeopleList, null), document.getElementById('main'));
 
-},{"jquery":28,"react":159,"react-dom":30}]},{},[160]);
+},{"./PeopleList":162,"react":159,"react-dom":30}]},{},[163]);
