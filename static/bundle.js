@@ -33791,6 +33791,83 @@ module.exports = PeopleAdd;
 
 },{"react":214,"react-dom":51}],218:[function(require,module,exports){
 var React = require('react');
+var ReadtDOM = require('react-dom');
+var $ = require('jquery');
+var Link = require('react-router').Link;
+
+var PeopleEdit = React.createClass({
+	displayName: 'PeopleEdit',
+
+	getInitialState: function () {
+		return {};
+	},
+
+	render: function () {
+		return React.createElement('div', null, 'Edit Person: ', this.props.params.id, React.createElement('br', null), React.createElement('form', { onSubmit: this.submit }, 'Name: ', React.createElement('input', { type: 'text', name: 'name', value: this.state.name, onChange: this.onChangeName }), 'Photo: ', React.createElement('input', { type: 'text', name: 'photo', value: this.state.photo, onChange: this.onChangePhoto }), 'Problem: ', React.createElement('input', { type: 'text', name: 'problem', value: this.state.problem, onChange: this.onChangeProblem }), 'Solution: ', React.createElement('input', { type: 'text', name: 'solution', value: this.state.solution, onChange: this.onChangeSolution }), React.createElement('br', null), 'Country:', React.createElement('select', { name: 'place', value: this.state.place, onChange: this.onChangePlace }, React.createElement('option', { value: 'India' }, 'India'), React.createElement('option', { value: 'China' }, 'China'), React.createElement('option', { value: 'Canada' }, 'Canada')), React.createElement('br', null), React.createElement('button', { type: 'submit' }, 'Submit'), React.createElement(Link, { to: '/people' }, 'Back to people list')));
+	},
+
+	componentDidMount: function () {
+		this.loadData();
+	},
+
+	componentDidUpdate: function (prevProps) {
+		console.log("Person Edit: componentDidUpdate ", prevProps.params.id, this.props.params.id);
+		if (this.props.params.id != prevProps.params.id) {
+			this.loadData();
+		}
+	},
+
+	loadData: function () {
+		$.ajax('/api/people/' + this.props.params.id).done(function (person) {
+			console.log("loaded data: ", person);
+			this.setState(person);
+		}.bind(this));
+	},
+
+	onChangeName: function (e) {
+		this.setState({ name: e.target.value });
+	},
+	onChangePhoto: function (e) {
+		this.setState({ photo: e.target.value });
+	},
+	onChangePlace: function (e) {
+		this.setState({ place: e.target.value });
+	},
+	onChangeProblem: function (e) {
+		this.setState({ problem: e.target.value });
+	},
+	onChangeSolution: function (e) {
+		this.setState({ solution: e.target.value });
+	},
+
+	submit: function (e) {
+		e.preventDefault();
+		var person = {
+			name: this.state.name,
+			photo: this.state.photo,
+			place: this.state.place,
+			problem: this.state.problem,
+			solution: this.state.solution
+		};
+
+		$.ajax({
+			url: '/api/people/' + this.props.params.id,
+			contentType: 'application/json',
+			type: 'PUT',
+			data: JSON.stringify(person),
+			dataType: 'json',
+			success: function (person) {
+				console.log("submitted succesffully: ", person);
+				this.setState(person);
+			}.bind(this)
+		});
+	}
+});
+
+module.exports = PeopleEdit;
+
+},{"jquery":48,"react":214,"react-dom":51,"react-router":79}],219:[function(require,module,exports){
+var React = require('react');
 var ReactDOM = require('react-dom');
 
 var PeopleFilter = React.createClass({
@@ -33832,10 +33909,11 @@ var PeopleFilter = React.createClass({
 
 module.exports = PeopleFilter;
 
-},{"react":214,"react-dom":51}],219:[function(require,module,exports){
+},{"react":214,"react-dom":51}],220:[function(require,module,exports){
 var React = require('react');
 var ReactDOM = require('react-dom');
 var $ = require('jquery');
+var Link = require('react-router').Link;
 
 var PeopleFilter = require('./PeopleFilter');
 var PeopleAdd = require('./PeopleAdd');
@@ -33844,7 +33922,7 @@ var PeopleRow = React.createClass({
 	displayName: 'PeopleRow',
 
 	render: function () {
-		return React.createElement('tr', { className: 'peopleRow' }, React.createElement('td', null, this.props.people._id), React.createElement('td', null, this.props.people.name), React.createElement('td', null, this.props.people.img), React.createElement('td', null, this.props.people.place), React.createElement('td', null, this.props.people.problem), React.createElement('td', null, this.props.people.solution));
+		return React.createElement('tr', { className: 'peopleRow' }, React.createElement('td', null, React.createElement(Link, { to: '/people/' + this.props.people._id }, this.props.people._id)), React.createElement('td', null, this.props.people.name), React.createElement('td', null, this.props.people.photo), React.createElement('td', null, this.props.people.place), React.createElement('td', null, this.props.people.problem), React.createElement('td', null, this.props.people.solution));
 	}
 });
 
@@ -33943,7 +34021,7 @@ var PeopleList = React.createClass({
 
 module.exports = PeopleList;
 
-},{"./PeopleAdd":217,"./PeopleFilter":218,"jquery":48,"react":214,"react-dom":51}],220:[function(require,module,exports){
+},{"./PeopleAdd":217,"./PeopleFilter":219,"jquery":48,"react":214,"react-dom":51,"react-router":79}],221:[function(require,module,exports){
 
 var React = require('react');
 var ReactDOM = require('react-dom');
@@ -33954,6 +34032,7 @@ var browserHistory = require('react-router').browserHistory;
 var hashHistory = require('react-router').hashHistory;
 
 var PeopleList = require('./PeopleList');
+var PeopleEdit = require('./PeopleEdit');
 
 //console.log("app.js loaded");
 var NoMatch = React.createClass({
@@ -33966,6 +34045,6 @@ var NoMatch = React.createClass({
 
 ReactDOM.render(
 //<PeopleList />,
-React.createElement(Router, { history: hashHistory }, React.createElement(Route, { path: '/people', component: PeopleList }), React.createElement(Redirect, { from: '/', to: '/people' }), React.createElement(Route, { path: '*', component: NoMatch })), document.getElementById('main'));
+React.createElement(Router, { history: hashHistory }, React.createElement(Route, { path: '/people', component: PeopleList }), React.createElement(Route, { path: '/people/:id', component: PeopleEdit }), React.createElement(Redirect, { from: '/', to: '/people' }), React.createElement(Route, { path: '*', component: NoMatch })), document.getElementById('main'));
 
-},{"./PeopleList":219,"react":214,"react-dom":51,"react-router":79}]},{},[220]);
+},{"./PeopleEdit":218,"./PeopleList":220,"react":214,"react-dom":51,"react-router":79}]},{},[221]);

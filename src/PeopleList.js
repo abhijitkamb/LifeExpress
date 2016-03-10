@@ -1,6 +1,7 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 var $ = require('jquery');
+var Link = require('react-router').Link;
 
 var PeopleFilter = require('./PeopleFilter');
 var PeopleAdd = require('./PeopleAdd');
@@ -9,9 +10,14 @@ var PeopleRow = React.createClass({
 	render: function() {
 		return (
 			<tr className="peopleRow">
-				<td>{this.props.people._id}</td>
+				
+				<td>
+					<Link to={'/people/' + this.props.people._id}>
+						{this.props.people._id}
+					</Link>
+				</td>
 				<td>{this.props.people.name}</td>
-				<td>{this.props.people.img}</td>
+				<td>{this.props.people.photo}</td>
 				<td>{this.props.people.place}</td>
 				<td>{this.props.people.problem}</td>
 				<td>{this.props.people.solution}</td>
